@@ -49,6 +49,13 @@ int main() {
     float cloud1Speed{0.0f};
     float cloud2Speed{0.0f};
     float cloud3Speed{0.0f};
+
+    cloud1Speed = 0;
+    cloud2Speed = 0;
+    cloud3Speed = 0;
+
+    Clock clock;
+
     RenderWindow window(vm, "Timber!!!", State::Fullscreen);
     window.setFramerateLimit(60);
 
@@ -62,6 +69,28 @@ int main() {
         }
 
         window.clear();
+        Time dt = clock.restart();
+        // set up the bee
+        if (!isBeeActive) 
+        {
+            // how fast is the bee
+            srand((int) time(0));
+            beeSpeed = (rand() % 200) + 200;
+            // how high is the bee
+            srand((int) time(0) * 10);
+            float height = (rand() % 500) + 500;
+            spriteBee.setPosition({2000, height});
+            isBeeActive = true;
+        } else {
+            // move the bee
+            spriteBee.setPosition({spriteBee.getPosition().x - (beeSpeed * dt.asSeconds()), spriteBee.getPosition().y});
+
+            // has bee reached left side of screen
+            if (spriteBee.getPosition().x <= -100) 
+            {
+                isBeeActive = false;
+            }
+        }
         window.draw(spriteBackground);
         window.draw(spriteCloud1);
         window.draw(spriteCloud2);
