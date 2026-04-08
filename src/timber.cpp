@@ -91,6 +91,65 @@ int main() {
                 isBeeActive = false;
             }
         }
+        // manage the clouds
+        // cloud 1
+        if (!isCloud1Active) 
+        {
+            // how fast is the cloud
+            srand((int) time(0) * 10);
+            cloud1Speed = (rand() % 200);
+            srand((int) time(0) * 10);
+            float height = (rand() % 150);
+            spriteCloud1.setPosition({-300, height});
+            isCloud1Active = true;
+        } else 
+        {
+            spriteCloud1.setPosition({spriteCloud1.getPosition().x + (cloud1Speed * dt.asSeconds()), spriteCloud1.getPosition().y});
+            // cloud out of bounds
+            if (spriteCloud1.getPosition().x >= 1920) 
+            {
+                isCloud1Active = false;
+            }
+        }
+        // cloud 2
+        if (!isCloud2Active)
+        {
+            // how fast
+            srand((int) time(0) * 20);
+            cloud2Speed = (rand() % 200);
+            srand((int) time(0) * 20);
+            float height = (rand() % 300) - 150;
+            spriteCloud2.setPosition({-300, height});
+            isCloud2Active = true;
+        } else 
+        {
+            spriteCloud2.setPosition({spriteCloud2.getPosition().x + (cloud2Speed * dt.asSeconds()), spriteCloud2.getPosition().y});
+            // cloud out of bounds?
+            if (spriteCloud2.getPosition().x >= 1920)
+            {
+                isCloud2Active = false;
+            }
+        }
+        // cloud 3
+        if (!isCloud3Active)
+        {
+            // how fast
+            srand((int) time(0) * 30);
+            cloud3Speed = (rand() % 200);
+            // how high
+            srand((int) time(0) * 30);
+            float height = (rand() % 450) - 150;
+            spriteCloud3.setPosition({-300, height});
+            isCloud3Active = true;
+        } else 
+        {
+            spriteCloud3.setPosition({spriteCloud3.getPosition().x + (cloud3Speed * dt.asSeconds()), spriteCloud3.getPosition().y});
+            // cloud out of bounds
+            if (spriteCloud3.getPosition().x >= 1920) 
+            {
+                isCloud3Active = false;
+            }
+        }
         window.draw(spriteBackground);
         window.draw(spriteCloud1);
         window.draw(spriteCloud2);
