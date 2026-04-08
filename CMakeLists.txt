@@ -1,19 +1,111 @@
-cmake_minimum_required(VERSION 3.28)
-project(CMakeSFMLProject LANGUAGES CXX)
+cmake_minimum_required(VERSION 3.16)
+project(timber)
 
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+set(CMAKE_POLICY_VERSION_MINIMUM 3.5)
+
+# Tell SFML to use system FreeType instead of fetching its own
+set(SFML_USE_SYSTEM_DEPS ON)
 
 include(FetchContent)
-FetchContent_Declare(SFML
+FetchContent_Declare(
+    SFML
     GIT_REPOSITORY https://github.com/SFML/SFML.git
-    GIT_TAG 3.0.2
-    GIT_SHALLOW ON
-    EXCLUDE_FROM_ALL
-    SYSTEM)
+    GIT_TAG        3.0.0
+)
 FetchContent_MakeAvailable(SFML)
 
-add_executable(main src/main.cpp)
-target_compile_features(main PRIVATE cxx_std_17)
-target_link_libraries(main PRIVATE SFML::Graphics)
+add_executable(timber MACOSX_BUNDLE src/timber.cpp)
 
-set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT main)
+target_link_libraries(timber PRIVATE
+    SFML::Graphics
+    SFML::Window
+    SFML::System
+    "-framework Cocoa"
+)
+
+set_target_properties(timber PROPERTIES
+    MACOSX_BUNDLE TRUE
+    BUILD_RPATH "${CMAKE_BINARY_DIR}/_deps/sfml-build/lib"
+)
+
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
+add_custom_command(TARGET timber POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy
+    ${CMAKE_SOURCE_DIR}/src/graphics/background.png
+    ${CMAKE_SOURCE_DIR}/background.png  # <-- copies to project root
+    COMMAND ${CMAKE_COMMAND} -E copy
+    ${CMAKE_SOURCE_DIR}/src/graphics/background.png
+    $<TARGET_FILE_DIR:timber>/background.png  # <-- copies inside .app
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
